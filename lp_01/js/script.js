@@ -2,21 +2,21 @@ const plans = [
     {
         title: "七五三の記念写真",
         description: "晴れ着姿が似合う季節に。ご家族みんなで残せる記念撮影プランです。",
-        image: "https://placehold.jp/600x400.png?text=Item",
+        image: "img/boy.webp",
         duration: "約60分",
         price: "12,800円〜"
     },
     {
         title: "誕生日の記念写真",
         description: "1歳のお誕生日やハーフバースデーも。ケーキや飾り付けと一緒に楽しく撮影します。",
-        image: "https://placehold.jp/600x400.png?text=Item",
+        image: "img/birthday.webp",
         duration: "約45分",
         price: "9,800円〜"
     },
     {
         title: "ニューボーンフォト",
         description: "生まれたばかりの小さな手足をそっと残す、ご家族だけの特別な撮影です。",
-        image: "https://placehold.jp/600x400.png?text=Item",
+        image: "img/newborn.webp",
         duration: "約90分",
         price: "14,800円〜"
     }
