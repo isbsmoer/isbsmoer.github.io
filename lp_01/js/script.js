@@ -26,19 +26,19 @@ const testimonials = [
     {
         name: "田中さんファミリー",
         detail: "3歳・1歳のお子さま",
-        image: "https://placehold.jp/150x150.png?text=User",
+        image: "img/voice1.png",
         comment: "はじめてなのに、スタッフさんが遊びながら撮ってくださって、自然な笑顔がたくさん。家族全員で楽しい思い出になりました。"
     },
     {
         name: "鈴木さんファミリー",
         detail: "7歳のお子さま",
-        image: "https://placehold.jp/150x150.png?text=User",
+        image: "img/voice2.png",
         comment: "着せたい衣装をいくつも試せて、子ども自身が撮影を楽しんでいました。仕上がったアルバムもおしゃれで大満足です。"
     },
     {
         name: "佐藤さんファミリー",
         detail: "生後1か月のお子さま",
-        image: "https://placehold.jp/150x150.png?text=User",
+        image: "img/voice3.png",
         comment: "赤ちゃんのペースに合わせて丁寧に進めていただきました。持ち込んだぬいぐるみとも一緒に撮れて、とても温かい写真ができました。"
     }
 ];
