@@ -15,7 +15,7 @@ const heroVisualData = [
 
 const itemData = [
     {
-        title: "展望スイートルーム（Suite Rooms）",
+        title: "展望スイートルーム<span>（Suite Rooms）</span>",
         description: "釧路の街並みや夕日を一望できる、上質なインテリアと広い窓を配したプライベート客室。",
         image: "img/item1.webp"
     },
