@@ -820,12 +820,12 @@ input:focus-visible {
 
     .maker-layout {
         flex: 1 1 auto;
-        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-        grid-template-rows: 48px minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto 48px minmax(0, 1fr);
         grid-template-areas:
-            "preview tabs"
-            "preview parts";
-        column-gap: 8px;
+            "preview"
+            "tabs"
+            "parts";
         row-gap: 0;
         min-height: 0;
         align-items: stretch;
@@ -848,17 +848,27 @@ input:focus-visible {
     .preview-panel {
         grid-area: preview;
         position: static;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) min(58vw, 260px);
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "heading preview"
+            "actions preview";
+        column-gap: 8px;
+        row-gap: 4px;
+        align-items: center;
         min-width: 0;
-        min-height: 0;
+        min-height: auto;
         padding: 8px;
+        margin-bottom: 8px;
         border-radius: 18px;
     }
 
     .preview-heading {
+        grid-area: heading;
         flex-direction: column;
         align-items: flex-start;
+        justify-content: center;
         gap: 2px;
     }
 
@@ -873,24 +883,25 @@ input:focus-visible {
     }
 
     .preview-box {
-        flex: 0 0 auto;
-        width: 100%;
+        grid-area: preview;
+        width: min(58vw, 260px);
         max-width: none;
         margin-inline: auto;
-        margin-top: 8px;
+        margin-top: 0;
         border-radius: 14px;
     }
 
     .action-area {
+        grid-area: actions;
         grid-template-columns: 1fr;
         gap: 6px;
-        margin-top: 8px;
+        margin-top: 0;
     }
 
     .action-area .button {
-        min-height: 38px;
+        min-height: 34px;
         border-radius: 12px;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .parts-panel {
