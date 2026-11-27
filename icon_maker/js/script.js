@@ -4,7 +4,7 @@ const PARTS_DATA = {
         label: "体",
         required: true,
         items: [
-            { path: 'img/cloth.PNG', label: '服' }
+            { path: 'img/cloth.png', label: '服' }
         ]
     },
     frontHair: {
@@ -90,7 +90,6 @@ const PARTS_DATA = {
             { path: 'img/eyes_06.png', label: '目' },
             { path: 'img/eyes_07.png', label: '目' },
             { path: 'img/eyes_08.png', label: '目' },
-            { path: 'img/eyes_09.png', label: '目' },
             { path: 'img/eyes_10.png', label: '目' }
         ]
     },
@@ -126,8 +125,8 @@ const PARTS_DATA = {
         ]
     },
     background: {
-        englishLabel: "Background",
-        label: "背景色",
+        englishLabel: "Patterns",
+        label: "背景柄",
         required: false,
         items: []
     }
@@ -136,7 +135,9 @@ const PARTS_DATA = {
 const state = {
     activeCategory: "body",
     selected: {},
-    backgroundColor: "#f7c873"
+    backgroundColor: "#ffffff",
+    patternColor: "#7a5555",
+    backgroundPattern: "plain"
 };
 
 Object.entries(PARTS_DATA).forEach(([key, category]) => {
@@ -153,20 +154,35 @@ const categoryTitle = document.getElementById("categoryTitle");
 const previewBox = document.getElementById("previewBox");
 const previewEmpty = document.getElementById("previewEmpty");
 const selectionCount = document.getElementById("selectionCount");
+const patternColorPicker = document.getElementById("patternColorPicker");
 const modal = document.getElementById("warningModal");
 const missingParts = document.getElementById("missingParts");
 const modalMessage = document.getElementById("modalMessage");
 const thumbnailCropCache = new Map();
 
 const backgroundColors = [
-    "#f7c873",
-    "#f5a7a7",
-    "#f3c7dc",
-    "#a9d8d1",
-    "#9fc5e8",
-    "#c9b6e4",
-    "#fff1c7",
-    "#ffffff"
+    "#ffffff",
+    "#d6d6d6",
+    "#f4a6a6",
+    "#f8c99a",
+    "#fff0a8",
+    "#b9ddb5",
+    "#a9e3df",
+    "#a9cbea",
+    "#b8b8df",
+    "#d2b6df"
+];
+
+const backgroundPatterns = [
+    { id: "plain", label: "なし", className: "pattern-plain" },
+    { id: "dots", label: "水玉", className: "pattern-dots" },
+    { id: "large-dots", label: "大きな水玉", className: "pattern-large-dots" },
+    { id: "checks", label: "チェック", className: "pattern-checks" },
+    { id: "border", label: "ボーダー", className: "pattern-border" },
+    { id: "stripes", label: "ストライプ", className: "pattern-stripes" },
+    { id: "gingham", label: "ギンガム", className: "pattern-gingham" },
+    { id: "hearts", label: "ハート", className: "pattern-hearts" },
+    { id: "stars", label: "星", className: "pattern-stars" }
 ];
 
 function renderTabs() {
@@ -200,7 +216,30 @@ function renderParts() {
     partsGrid.innerHTML = "";
 
     if (state.activeCategory === "background") {
-        partsGrid.innerHTML = '<p class="empty-category">下の背景色オプションから色を選択できます。</p>';
+        backgroundPatterns.forEach((pattern) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = `part-card pattern-card${state.backgroundPattern === pattern.id ? " active" : ""}`;
+            button.setAttribute("aria-label", pattern.label);
+
+            const sample = document.createElement("div");
+            sample.className = `pattern-sample ${pattern.className}`;
+            sample.style.backgroundColor = state.backgroundColor;
+            sample.style.setProperty("--pattern-color", state.patternColor);
+            setDecorativePatternTile(sample, pattern.id);
+            sample.setAttribute("aria-hidden", "true");
+
+            const label = document.createElement("span");
+            label.textContent = pattern.label;
+
+            button.append(sample, label);
+            button.addEventListener("click", () => {
+                state.backgroundPattern = pattern.id;
+                renderParts();
+                updatePreview();
+            });
+            partsGrid.appendChild(button);
+        });
         return;
     }
 
@@ -328,6 +367,14 @@ function clearPart(categoryKey) {
 function updatePreview() {
     previewBox.querySelectorAll(".preview-layer").forEach((layer) => layer.remove());
     previewBox.style.backgroundColor = state.backgroundColor;
+    previewBox.style.setProperty("--pattern-color", state.patternColor);
+    backgroundPatterns.forEach((pattern) => {
+        previewBox.classList.remove(`pattern-${pattern.id}`);
+    });
+    if (state.backgroundPattern !== "plain") {
+        previewBox.classList.add(`pattern-${state.backgroundPattern}`);
+    }
+    setDecorativePatternTile(previewBox, state.backgroundPattern);
 
     let selectedCount = 0;
 
@@ -374,6 +421,18 @@ function setBackgroundColor(color) {
     state.backgroundColor = color;
     document.getElementById("backgroundPicker").value = color;
     renderBackgroundPalette();
+    if (state.activeCategory === "background") {
+        renderParts();
+    }
+    updatePreview();
+}
+
+function setPatternColor(color) {
+    state.patternColor = color;
+    patternColorPicker.value = color;
+    if (state.activeCategory === "background") {
+        renderParts();
+    }
     updatePreview();
 }
 
@@ -420,6 +479,7 @@ async function saveAsPng() {
 
     context.fillStyle = state.backgroundColor;
     context.fillRect(0, 0, size, size);
+    drawBackgroundPattern(context, size);
 
     for (const key of layerOrder) {
         const path = state.selected[key];
@@ -430,9 +490,135 @@ async function saveAsPng() {
     }
 
     const link = document.createElement("a");
-    link.download = "open-peeps-icon.png";
+    link.download = "nina_icon.png";
     link.href = canvas.toDataURL("image/png");
     link.click();
+}
+
+function drawBackgroundPattern(context, size) {
+    if (state.backgroundPattern === "plain") return;
+
+    const scale = size / Math.max(previewBox.clientWidth, 1);
+    const tileBaseSize = state.backgroundPattern === "hearts" || state.backgroundPattern === "stars"
+        ? 72
+        : state.backgroundPattern === "large-dots"
+            ? 48
+            : 24;
+    const tileSize = Math.max(1, Math.round(tileBaseSize * scale));
+    const tile = createBackgroundPatternTile(state.backgroundPattern, tileSize, scale);
+    const pattern = context.createPattern(tile, "repeat");
+    if (!pattern) {
+        throw new Error("背景柄をPNGに描画できませんでした。");
+    }
+    if (["dots", "large-dots", "hearts", "stars"].includes(state.backgroundPattern)) {
+        const tileCount = Math.max(1, Math.round(size / tileSize));
+        const tileScale = size / (tileCount * tileSize);
+        pattern.setTransform(new DOMMatrix([tileScale, 0, 0, tileScale, 0, 0]));
+    }
+    context.fillStyle = pattern;
+    context.fillRect(0, 0, size, size);
+}
+
+function createBackgroundPatternTile(patternId, tileSize, scale) {
+    const tile = document.createElement("canvas");
+    tile.width = tileSize;
+    tile.height = tileSize;
+    const tileContext = tile.getContext("2d");
+    tileContext.fillStyle = state.patternColor;
+
+    if (patternId === "dots") {
+        tileContext.beginPath();
+        tileContext.arc(tileSize / 2, tileSize / 2, 2.5 * scale, 0, Math.PI * 2);
+        tileContext.fill();
+    } else if (patternId === "large-dots") {
+        tileContext.beginPath();
+        tileContext.arc(tileSize / 2, tileSize / 2, 9 * scale, 0, Math.PI * 2);
+        tileContext.fill();
+    } else if (patternId === "checks") {
+        tileContext.fillRect(0, 0, tileSize / 2, tileSize / 2);
+        tileContext.fillRect(tileSize / 2, tileSize / 2, tileSize / 2, tileSize / 2);
+    } else if (patternId === "border") {
+        tileContext.fillRect(0, 0, tileSize, 6 * scale);
+    } else if (patternId === "stripes") {
+        tileContext.fillRect(0, 0, 6 * scale, tileSize);
+    } else if (patternId === "gingham") {
+        tileContext.globalAlpha = 0.4;
+        tileContext.fillRect(0, 0, tileSize, tileSize / 2);
+        tileContext.fillRect(0, 0, tileSize / 2, tileSize);
+    } else if (patternId === "hearts") {
+        const unit = tileSize / 72;
+        tileContext.beginPath();
+        tileContext.moveTo(36 * unit, 62 * unit);
+        tileContext.bezierCurveTo(30 * unit, 55 * unit, 8 * unit, 40 * unit, 8 * unit, 26 * unit);
+        tileContext.bezierCurveTo(8 * unit, 14 * unit, 23 * unit, 10 * unit, 36 * unit, 23 * unit);
+        tileContext.bezierCurveTo(49 * unit, 10 * unit, 64 * unit, 14 * unit, 64 * unit, 26 * unit);
+        tileContext.bezierCurveTo(64 * unit, 40 * unit, 42 * unit, 55 * unit, 36 * unit, 62 * unit);
+        tileContext.closePath();
+        tileContext.fill();
+    } else if (patternId === "stars") {
+        const center = tileSize / 2;
+        const outerRadius = 28 * scale;
+        const innerRadius = 11 * scale;
+        tileContext.beginPath();
+        for (let point = 0; point < 10; point += 1) {
+            const radius = point % 2 === 0 ? outerRadius : innerRadius;
+            const angle = -Math.PI / 2 + (point * Math.PI) / 5;
+            const x = center + Math.cos(angle) * radius;
+            const y = center + Math.sin(angle) * radius;
+            if (point === 0) {
+                tileContext.moveTo(x, y);
+            } else {
+                tileContext.lineTo(x, y);
+            }
+        }
+        tileContext.closePath();
+        tileContext.fill();
+    }
+
+    return tile;
+}
+
+function setDecorativePatternTile(element, patternId) {
+    if (!["dots", "large-dots", "hearts", "stars"].includes(patternId)) {
+        element.style.backgroundImage = "";
+        element.style.backgroundSize = "";
+        element.style.backgroundRepeat = "";
+        element.style.backgroundPosition = "";
+        return;
+    }
+
+    if (patternId === "hearts" || patternId === "stars") {
+        const isPatternCard = element.classList.contains("pattern-sample");
+        const tileSize = isPatternCard ? 144 : 72;
+        const tile = isPatternCard
+            ? createFourMotifTile(patternId)
+            : createBackgroundPatternTile(patternId, tileSize, 1);
+        element.style.backgroundImage = `url("${tile.toDataURL()}")`;
+        element.style.backgroundSize = `${tileSize}px ${tileSize}px`;
+        element.style.backgroundRepeat = isPatternCard ? "no-repeat" : "round";
+        element.style.backgroundPosition = "center center";
+    } else {
+        element.style.backgroundImage = "";
+        element.style.backgroundSize = "";
+        element.style.backgroundPosition = "";
+        element.style.backgroundRepeat = "round";
+    }
+}
+
+function createFourMotifTile(patternId) {
+    const tile = document.createElement("canvas");
+    tile.width = 144;
+    tile.height = 144;
+
+    const motif = createBackgroundPatternTile(patternId, 72, 1);
+    const context = tile.getContext("2d");
+    for (let row = 0; row < 2; row += 1) {
+        for (let column = 0; column < 2; column += 1) {
+            context.drawImage(motif, column * 72, row * 72);
+        }
+    }
+
+    return tile;
 }
 
 function loadImage(src) {
@@ -474,6 +660,9 @@ document.getElementById("modalClose").addEventListener("click", closeModal);
 document.querySelector("[data-close-modal]").addEventListener("click", closeModal);
 document.getElementById("backgroundPicker").addEventListener("input", (event) => {
     setBackgroundColor(event.target.value);
+});
+patternColorPicker.addEventListener("input", (event) => {
+    setPatternColor(event.target.value);
 });
 
 document.addEventListener("keydown", (event) => {

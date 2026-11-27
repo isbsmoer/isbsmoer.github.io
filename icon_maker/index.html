@@ -4,8 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="自由な組み合わせでオリジナルのアイコンを作成できるカスタムメーカー">
+    <meta name="description" content="パーツを組み合わせて、あなただけのアイコンを作ろう。背景や柄も選んでPNGで保存できます。">
+    <meta name="application-name" content="アイコンめ～か～">
+    <meta name="apple-mobile-web-app-title" content="アイコンめ～か～">
+    <meta name="theme-color" content="#fff0a8">
     <title>アイコンめ～か～｜icon maker</title>
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="アイコンめ～か～">
+    <meta property="og:title" content="アイコンめ～か～｜icon maker">
+    <meta property="og:description" content="パーツを組み合わせて、あなただけのアイコンを作ろう。背景や柄も選んでPNGで保存できます。">
+    <meta property="og:url" content="https://isbsmoer.github.io/icon_maker/">
+    <meta property="og:image" content="https://isbsmoer.github.io/icon_maker/img/icon-512.png">
+    <meta property="og:image:alt" content="アイコンめ～か～のアプリアイコン">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="アイコンめ～か～｜icon maker">
+    <meta name="twitter:description" content="パーツを組み合わせて、あなただけのアイコンを作ろう。背景や柄も選んでPNGで保存できます。">
+    <meta name="twitter:image" content="https://isbsmoer.github.io/icon_maker/img/icon-512.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Rubik+Bubbles&display=swap"
@@ -53,7 +71,11 @@
                     <div id="backgroundPalette" class="background-palette" aria-label="背景色パレット"></div>
                     <label class="color-picker-label" for="backgroundPicker">
                         <span>自由に選択</span>
-                        <input id="backgroundPicker" type="color" value="#f7c873">
+                        <input id="backgroundPicker" type="color" value="#ffffff">
+                    </label>
+                    <label class="color-picker-label" for="patternColorPicker">
+                        <span>柄の色</span>
+                        <input id="patternColorPicker" type="color" value="#7a5555">
                     </label>
                 </div>
             </section>
