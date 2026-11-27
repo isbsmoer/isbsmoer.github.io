@@ -489,10 +489,42 @@ async function saveAsPng() {
         context.drawImage(image, 0, 0, size, size);
     }
 
+    const blob = await new Promise((resolve) => {
+        canvas.toBlob(resolve, "image/png");
+    });
+    if (!blob) {
+        throw new Error("PNG画像を作成できませんでした。");
+    }
+
+    const filename = "nina_icon.png";
+    if (
+        typeof File === "function" &&
+        typeof navigator.share === "function" &&
+        typeof navigator.canShare === "function"
+    ) {
+        const file = new File([blob], filename, { type: "image/png" });
+        if (navigator.canShare({ files: [file] })) {
+            try {
+                await navigator.share({ files: [file], title: file.name });
+            } catch (error) {
+                if (error instanceof DOMException && error.name === "AbortError") {
+                    return;
+                }
+                throw error;
+            }
+            return;
+        }
+    }
+
+    const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.download = "nina_icon.png";
-    link.href = canvas.toDataURL("image/png");
+    link.download = filename;
+    link.href = url;
+    link.hidden = true;
+    document.body.appendChild(link);
     link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 function drawBackgroundPattern(context, size) {
