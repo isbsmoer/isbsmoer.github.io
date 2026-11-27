@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅のしおりメーカー</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Kiwi+Maru:wght@400;500&family=Mochiy+Pop+One&family=Shippori+Mincho:wght@400;600&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-font-zen theme-coral frame-simple">
+    <main class="phone-shell">
+        <header class="app-header">
+            <button class="brand" type="button" id="scrollTop" aria-label="ページ上部へ">
+                <span class="brand-mark">旅</span>
+                <span>旅のしおり</span>
+            </button>
+            <div class="header-actions">
+                <button class="mode-button" type="button" id="modeToggle">
+                    <span id="modeIcon" aria-hidden="true">👁</span>
+                    <span id="modeLabel">閲覧</span>
+                </button>
+                <button class="icon-button" type="button" id="printButton" aria-label="印刷またはPDF保存">PDF</button>
+            </div>
+        </header>
+
+        <div class="app-content" id="appContent">
+            <section class="cover">
+                <div class="cover-photo">
+                    <img id="coverPreview" src="" alt="表紙画像">
+                    <div class="cover-placeholder" id="coverPlaceholder">
+                        <span>📷</span>
+                        <p>表紙の写真を追加</p>
+                    </div>
+                    <label class="photo-upload edit-only" for="coverImage">
+                        <span>画像を選ぶ</span>
+                        <input type="file" id="coverImage" accept="image/*">
+                    </label>
+                </div>
+                <div class="cover-copy">
+                    <p class="eyebrow">TRAVEL NOTE</p>
+                    <h1 id="coverTitle">春の横浜・八景島シーパラダイス満喫</h1>
+                    <div class="cover-meta">
+                        <span id="coverDestination">横浜・八景島</span>
+                        <span id="coverDates">2026.04.18 — 04.19</span>
+                    </div>
+                    <p class="member-line"><span>MEMBER</span> <strong id="coverMembers">なお・ゆう・さくら</strong></p>
+                </div>
+            </section>
+
+            <section class="section-block">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">TRIP</p>
+                        <h2>旅の予定</h2>
+                    </div>
+                    <button class="round-add edit-only" type="button" id="addSchedule" aria-label="予定を追加">＋</button>
+                </div>
+                <div class="timeline" id="timeline"></div>
+            </section>
+
+            <aside class="editor-panel edit-only" id="editorPanel">
+                <div class="editor-heading">
+                    <h2>しおりを編集</h2>
+                    <button type="button" id="editorClose" aria-label="編集パネルを閉じる">×</button>
+                </div>
+                <label class="field">
+                    <span>旅行タイトル</span>
+                    <input type="text" id="tripTitle" maxlength="40">
+                </label>
+                <label class="field">
+                    <span>行き先</span>
+                    <input type="text" id="tripDestination" maxlength="30">
+                </label>
+                <div class="field-row">
+                    <label class="field">
+                        <span>開始日</span>
+                        <input type="date" id="startDate">
+                    </label>
+                    <label class="field">
+                        <span>終了日</span>
+                        <input type="date" id="endDate">
+                    </label>
+                </div>
+                <label class="field">
+                    <span>メンバー</span>
+                    <input type="text" id="members" maxlength="50" placeholder="例：なお・ゆう・さくら">
+                </label>
+            </aside>
+        </div>
+
+        <footer class="customizer edit-only" id="customizer">
+            <div class="customizer-tabs" role="tablist" aria-label="デザイン設定">
+                <button type="button" class="custom-tab active" data-tab="theme" role="tab">テーマ</button>
+                <button type="button" class="custom-tab" data-tab="frame" role="tab">フレーム</button>
+            </div>
+            <div class="custom-panel active" id="themePanel">
+                <div class="control-group font-control">
+                    <span class="control-label">フォント</span>
+                    <div class="font-options" id="fontOptions">
+                        <button type="button" class="font-choice active" data-font="zen">丸ゴシック</button>
+                        <button type="button" class="font-choice" data-font="kiwi">Kiwi</button>
+                        <button type="button" class="font-choice" data-font="shippori">明朝</button>
+                        <button type="button" class="font-choice" data-font="mochiy">ポップ</button>
+                        <button type="button" class="font-choice" data-font="cormorant">Cormorant</button>
+                    </div>
+                </div>
+                <div class="control-row">
+                    <div class="control-group">
+                        <span class="control-label">背景</span>
+                        <div class="swatches" id="backgroundSwatches">
+                            <button type="button" class="swatch active" data-color="#FFF8E9" style="--swatch:#FFF8E9" aria-label="クリーム"></button>
+                            <button type="button" class="swatch" data-color="#FFFCF7" style="--swatch:#FFFCF7" aria-label="オフホワイト"></button>
+                            <button type="button" class="swatch" data-preset="pink" data-color="#FFF0F4" style="--swatch:#FFF0F4" aria-label="ピンク"></button>
+                            <button type="button" class="swatch" data-preset="blue" data-color="#EDF4FF" style="--swatch:#EDF4FF" aria-label="ブルー"></button>
+                            <button type="button" class="swatch" data-preset="yellow" data-color="#FFF7D6" style="--swatch:#FFF7D6" aria-label="イエロー"></button>
+                            <button type="button" class="swatch" data-preset="green" data-color="#EFFAF0" style="--swatch:#EFFAF0" aria-label="グリーン"></button>
+                            <label class="swatch custom-swatch" aria-label="背景色を選択"><input type="color" id="backgroundPicker" value="#FFF8E9"></label>
+                        </div>
+                    </div>
+                    <label class="color-control">
+                        <span>見出し</span>
+                        <input type="color" id="accentPicker" value="#FF7A9E">
+                    </label>
+                </div>
+            </div>
+            <div class="custom-panel" id="framePanel">
+                <div class="frame-options" id="frameOptions">
+                    <button type="button" class="frame-choice active" data-frame="simple"><span class="frame-preview simple-preview"></span>シンプル</button>
+                    <button type="button" class="frame-choice" data-frame="dotted"><span class="frame-preview dotted-preview"></span>ドット</button>
+                    <button type="button" class="frame-choice" data-frame="polaroid"><span class="frame-preview polaroid-preview"></span>ポラロイド</button>
+                    <button type="button" class="frame-choice" data-frame="tape"><span class="frame-preview tape-preview"></span>マスキング</button>
+                    <button type="button" class="frame-choice" data-frame="ticket"><span class="frame-preview ticket-preview"></span>チケット</button>
+                </div>
+            </div>
+            <button class="edit-basic" type="button" id="editBasic">基本情報を編集</button>
+        </footer>
+    </main>
+    <script src="js/script.js"></script>
+</body>
+</html>

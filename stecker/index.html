@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fff3d6">
+    <title>シールあつめ</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <button class="brand" type="button" data-view="home" aria-label="ホームへ">
+                <span class="brand-flower" aria-hidden="true">✿</span>
+                <span>シールあつめ</span>
+            </button>
+            <div class="coin-counter" aria-label="所持コイン">
+                <span class="coin-icon" aria-hidden="true">●</span>
+                <strong id="coinCount">0</strong>
+            </div>
+        </header>
+
+        <main>
+            <section class="view active" id="homeView">
+                <div class="home-hero">
+                    <div>
+                        <p class="eyebrow">きょうもシールをあつめよう！</p>
+                        <h1>ようこそ、シールの世界へ</h1>
+                    </div>
+                    <div class="hero-sticker" aria-hidden="true">🌸</div>
+                </div>
+                <div class="menu-grid">
+                    <button class="menu-card work-card" type="button" data-view="work">
+                        <span class="menu-icon">🧺</span>
+                        <span><strong>おしごと</strong><small>仕分けしてコインをゲット</small></span>
+                        <span class="menu-arrow">›</span>
+                    </button>
+                    <button class="menu-card shop-card" type="button" data-view="shop">
+                        <span class="menu-icon">🎁</span>
+                        <span><strong>ショップ</strong><small>シールパックを開封</small></span>
+                        <span class="menu-arrow">›</span>
+                    </button>
+                    <button class="menu-card album-card" type="button" data-view="album">
+                        <span class="menu-icon">📖</span>
+                        <span><strong>シール帳</strong><small>お気に入りを貼って飾ろう</small></span>
+                        <span class="menu-arrow">›</span>
+                    </button>
+                    <button class="menu-card collection-card" type="button" data-view="collection">
+                        <span class="menu-icon">🔍</span>
+                        <span><strong>図鑑</strong><small id="homeCollectionRate">コンプリート 0%</small></span>
+                        <span class="menu-arrow">›</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="view" id="workView">
+                <div class="section-heading">
+                    <button class="back-button" type="button" data-view="home" aria-label="ホームへ戻る">‹</button>
+                    <div><p class="eyebrow">おしごと</p><h1>いろわけ仕分け</h1></div>
+                </div>
+                <div class="game-panel">
+                    <div class="game-status">
+                        <span>のこり時間 <strong id="timeLeft">30</strong>秒</span>
+                        <span>スコア <strong id="gameScore">0</strong></span>
+                    </div>
+                    <div id="sortingTarget" class="sorting-target" aria-live="polite">
+                        <button class="game-start" id="gameStart" type="button">スタート！</button>
+                    </div>
+                    <div class="sort-bins" id="sortBins">
+                        <button type="button" class="sort-bin bin-pink" data-color="pink"><span>ももいろ</span></button>
+                        <button type="button" class="sort-bin bin-blue" data-color="blue"><span>あおいろ</span></button>
+                        <button type="button" class="sort-bin bin-yellow" data-color="yellow"><span>きいろ</span></button>
+                    </div>
+                    <p class="game-message" id="gameMessage">正しい色のかごをタップしてね</p>
+                </div>
+            </section>
+
+            <section class="view" id="shopView">
+                <div class="section-heading">
+                    <button class="back-button" type="button" data-view="home" aria-label="ホームへ戻る">‹</button>
+                    <div><p class="eyebrow">ショップ</p><h1>シールパック</h1></div>
+                </div>
+                <div class="shop-layout">
+                    <div class="pack-display" id="packDisplay">
+                        <div class="pack-pack">
+                            <div class="pack-ribbon"></div>
+                            <span class="pack-brand">Sticker<br>Pack</span>
+                            <span class="pack-stars">✦ ✿ ✦</span>
+                        </div>
+                    </div>
+                    <div class="shop-info">
+                        <h2>ふんわりパック</h2>
+                        <p>シールが3まい入っています</p>
+                        <button class="primary-button" id="openPack" type="button">
+                            パックを開ける <span class="coin-inline">●</span>100
+                        </button>
+                        <p class="shop-message" id="shopMessage" aria-live="polite"></p>
+                    </div>
+                    <div class="reveal-grid" id="revealGrid" aria-label="開封したシール"></div>
+                </div>
+            </section>
+
+            <section class="view" id="albumView">
+                <div class="section-heading album-heading">
+                    <button class="back-button" type="button" data-view="home" aria-label="ホームへ戻る">‹</button>
+                    <div><p class="eyebrow">シール帳</p><h1>ページをデコレーション</h1></div>
+                    <button class="small-button" id="addPage" type="button">＋ ページ追加</button>
+                </div>
+                <div class="album-layout">
+                    <aside class="sticker-drawer">
+                        <h2>もっているシール</h2>
+                        <div id="albumInventory" class="album-inventory"></div>
+                    </aside>
+                    <div class="album-workspace">
+                        <div class="page-controls">
+                            <button id="prevPage" type="button" aria-label="前のページ">‹</button>
+                            <span id="pageIndicator">ページ 1 / 1</span>
+                            <button id="nextPage" type="button" aria-label="次のページ">›</button>
+                        </div>
+                        <div class="sticker-page" id="stickerPage" aria-label="シール帳のページ"></div>
+                        <div class="edit-controls" id="editControls">
+                            <button type="button" id="rotateSticker" disabled>↻ 回転</button>
+                            <button type="button" id="bringSticker" disabled>一番手前</button>
+                            <button type="button" class="danger-button" id="deleteSticker" disabled>削除</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" id="collectionView">
+                <div class="section-heading">
+                    <button class="back-button" type="button" data-view="home" aria-label="ホームへ戻る">‹</button>
+                    <div><p class="eyebrow">図鑑</p><h1>シールコレクション</h1></div>
+                </div>
+                <div class="collection-summary">
+                    <div class="completion-ring" id="completionRing"><strong id="completionPercent">0%</strong></div>
+                    <div>
+                        <p>コンプリート</p>
+                        <strong id="collectionCount">0 / 0</strong>
+                    </div>
+                </div>
+                <div class="collection-grid" id="collectionGrid"></div>
+            </section>
+        </main>
+
+        <nav class="bottom-nav" aria-label="メインメニュー">
+            <button type="button" data-view="home" class="nav-active"><span>⌂</span><small>ホーム</small></button>
+            <button type="button" data-view="work"><span>🧺</span><small>おしごと</small></button>
+            <button type="button" data-view="shop"><span>🎁</span><small>ショップ</small></button>
+            <button type="button" data-view="album"><span>📖</span><small>シール帳</small></button>
+            <button type="button" data-view="collection"><span>🔍</span><small>図鑑</small></button>
+        </nav>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+</html>

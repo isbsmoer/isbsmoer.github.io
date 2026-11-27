@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flora Words - 花束と花言葉のギフトガイド</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="#" aria-label="Flora Words ホーム">
+                <span class="brand-mark" aria-hidden="true">
+                    <img src="https://placehold.jp/150x150.png?text=Flora" alt="">
+                </span>
+                <span>
+                    <strong>Flora Words</strong>
+                    <small>FLOWER GIFT &amp; LANGUAGE</small>
+                </span>
+            </a>
+            <nav class="main-nav" aria-label="主要ナビゲーション">
+                <a href="#diagnosis">花束を診断する</a>
+                <a href="#bouquet-board">提案と花言葉一覧</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="diagnosis">
+            <div class="hero-copy">
+                <p class="eyebrow">Flower Gift Consultation</p>
+                <h1>想いを花言葉に託して、<br><em>世界にひとつの花束を。</em></h1>
+                <p class="hero-description">贈る相手とシーン、好みの色から、心に届く花束の組み合わせをご提案します。</p>
+            </div>
+            <div class="diagnosis-panel">
+                <div class="hero-visual" aria-label="花束のイメージ">
+                    <img src="https://placehold.jp/800x400.png?text=Flower+Bouquet" alt="花束のイメージ">
+                </div>
+                <form id="diagnosis-form" class="diagnosis-form">
+                    <div class="form-field">
+                        <label for="recipient">贈る相手</label>
+                        <select id="recipient" name="recipient">
+                            <option value="恋人・パートナー">恋人・パートナー</option>
+                            <option value="友人・同僚">友人・同僚</option>
+                            <option value="家族・両親">家族・両親</option>
+                            <option value="お世話になった目上の方">お世話になった目上の方</option>
+                            <option value="自分へのご褒美">自分へのご褒美</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="occasion">贈るシーン</label>
+                        <select id="occasion" name="occasion">
+                            <option value="誕生日">誕生日</option>
+                            <option value="感謝・お礼">感謝・お礼</option>
+                            <option value="お祝い・門出">お祝い・門出</option>
+                            <option value="励まし・応援">励まし・応援</option>
+                            <option value="記念日・特別な日">記念日・特別な日</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="color">希望のメインカラー</label>
+                        <select id="color" name="color">
+                            <option value="おまかせ">おまかせ</option>
+                            <option value="ピンク系">ピンク系</option>
+                            <option value="レッド系">レッド系</option>
+                            <option value="イエロー・オレンジ系">イエロー・オレンジ系</option>
+                            <option value="ホワイト・グリーン系">ホワイト・グリーン系</option>
+                            <option value="ブルー・パープル系">ブルー・パープル系</option>
+                        </select>
+                    </div>
+                    <button class="primary-button" type="submit">花束のアイデアを見る</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="atelier-board" id="bouquet-board">
+            <article class="proposal-column" aria-labelledby="proposal-heading">
+                <div id="proposal" class="proposal" aria-live="polite"></div>
+                <div class="proposal-actions">
+                    <button id="reshuffle-button" class="secondary-button" type="button">別の組み合わせを再提案する</button>
+                    <button id="favorite-button" class="favorite-button" type="button">♡ お気に入りに保存</button>
+                </div>
+                <section class="favorites" aria-labelledby="favorites-heading">
+                    <div class="section-heading compact">
+                        <p class="eyebrow">My Favorites</p>
+                        <h2 id="favorites-heading">お気に入り一覧</h2>
+                    </div>
+                    <div id="favorites-list" class="favorites-list"></div>
+                </section>
+            </article>
+
+            <aside class="dictionary-column" aria-labelledby="dictionary-heading">
+                <div class="section-heading">
+                    <p class="eyebrow">Flower Dictionary</p>
+                    <h2 id="dictionary-heading">花言葉図鑑</h2>
+                </div>
+                <div class="dictionary-tools">
+                    <div id="filter-tabs" class="filter-tabs" aria-label="カラーで絞り込む"></div>
+                    <label class="search-box" for="flower-search">
+                        <span aria-hidden="true">⌕</span>
+                        <input id="flower-search" type="search" placeholder="花名・花言葉で検索">
+                    </label>
+                </div>
+                <div id="flower-grid" class="flower-grid"></div>
+            </aside>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-brand">Flora Words</div>
+        <p>想いを届ける、花の物語。</p>
+        <small>&copy; 2026 Flora Words</small>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

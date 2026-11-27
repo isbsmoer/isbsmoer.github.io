@@ -1,1 +1,815 @@
 @charset "utf-8";
+
+:root {
+    /* 欧文フォント */
+    --font_en: 'Fredoka', sans-serif;
+    /* 和文フォント */
+    --font_ja: 'Zen Maru Gothic', sans-serif;
+    /* 共通フォント */
+    --font-family: var(--font_en), var(--font_ja);
+    --primary-color: #E06A4E;
+    --secondary-color: #5C8D76;
+    --bg-color: #FFF9F2;
+    --text-color: #3A322D;
+    --accent-color: #F3A647;
+    --visited-color: #5C8D76;
+    --wishlist-color: #E06A4E;
+    --border-color: #E8DED2;
+    --card-bg-color: #FFFFFF;
+    --soft-bg-color: #F7EFE5;
+    --shadow-color: #5C4A3D26;
+    --header-bg-color: #FFFDF8;
+    --muted-text-color: #776B62;
+    --input-bg-color: #FFFFFF;
+    --overlay-color: #3A322D99;
+    --marker-shadow-color: #3A322D66;
+    --success-soft-color: #EAF2ED;
+    --wishlist-soft-color: #FBE9E3;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    color: var(--text-color);
+    background: var(--bg-color);
+    font-family: var(--font-family);
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button,
+select,
+input[type="file"] {
+    cursor: pointer;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--header-bg-color);
+}
+
+.header-inner,
+.footer-inner {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+.header-inner {
+    min-height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand,
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.brand strong {
+    display: block;
+    font-size: 21px;
+}
+
+.brand small {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted-text-color);
+    font-size: 12px;
+}
+
+.brand-mark {
+    width: 44px;
+    height: 44px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50% 50% 46% 54%;
+    color: var(--card-bg-color);
+    background: var(--primary-color);
+    font-family: var(--font_en);
+    font-size: 22px;
+    font-weight: 700;
+    transform: rotate(-5deg);
+}
+
+.button {
+    min-height: 44px;
+    border: 0;
+    border-radius: 12px;
+    padding: 10px 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-weight: 700;
+    transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button-primary {
+    color: var(--card-bg-color);
+    background: var(--primary-color);
+    box-shadow: 0 8px 18px var(--shadow-color);
+}
+
+.button-primary:hover {
+    background: var(--wishlist-color);
+}
+
+.button-secondary {
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg-color);
+}
+
+.button-location {
+    color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg-color);
+}
+
+.control-section {
+    width: min(1180px, calc(100% - 40px));
+    margin: 28px auto 18px;
+}
+
+.control-bar {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 180px auto;
+    gap: 12px;
+}
+
+.search-field,
+.select-field {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--input-bg-color);
+}
+
+.search-field {
+    gap: 8px;
+    padding: 0 14px;
+}
+
+.search-icon {
+    color: var(--primary-color);
+    font-size: 20px;
+}
+
+.search-field input,
+.select-field select {
+    width: 100%;
+    height: 46px;
+    border: 0;
+    outline: 0;
+    color: var(--text-color);
+    background: var(--input-bg-color);
+}
+
+.select-field {
+    position: relative;
+    padding: 0 14px;
+}
+
+.select-field span {
+    color: var(--muted-text-color);
+    font-size: 12px;
+}
+
+.status-tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.status-tab {
+    min-height: 38px;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    padding: 7px 16px;
+    color: var(--muted-text-color);
+    background: var(--card-bg-color);
+    transition: 180ms ease;
+}
+
+.status-tab.active {
+    color: var(--card-bg-color);
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+}
+
+.workspace {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto 72px;
+    display: grid;
+    grid-template-columns: minmax(360px, 0.95fr) minmax(520px, 1.35fr);
+    gap: 24px;
+}
+
+.map-column,
+.list-column {
+    min-width: 0;
+}
+
+.section-heading {
+    min-height: 64px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.section-heading h1,
+.section-heading h2,
+.faq-heading h2,
+.modal-header h2 {
+    margin: 2px 0 12px;
+    font-size: 24px;
+}
+
+.eyebrow {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+}
+
+.count-badge {
+    margin-bottom: 12px;
+    border-radius: 999px;
+    padding: 6px 10px;
+    color: var(--secondary-color);
+    background: var(--success-soft-color);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#map {
+    height: 565px;
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 14px 32px var(--shadow-color);
+}
+
+.map-help {
+    margin: 10px 4px 0;
+    color: var(--muted-text-color);
+    font-size: 12px;
+}
+
+.text-button {
+    margin-bottom: 12px;
+    border: 0;
+    color: var(--primary-color);
+    background: transparent;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.restaurant-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.restaurant-card {
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--card-bg-color);
+    box-shadow: 0 8px 22px var(--shadow-color);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 30px var(--shadow-color);
+}
+
+.card-image {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.status-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 999px;
+    padding: 6px 9px;
+    color: var(--card-bg-color);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-badge.visited {
+    background: var(--visited-color);
+}
+
+.status-badge.wishlist {
+    background: var(--wishlist-color);
+}
+
+.card-body {
+    padding: 14px;
+}
+
+.card-location {
+    color: var(--muted-text-color);
+    font-size: 11px;
+}
+
+.card-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 4px 0 8px;
+}
+
+.card-title-row h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.genre {
+    flex: 0 0 auto;
+    border-radius: 999px;
+    padding: 4px 7px;
+    color: var(--secondary-color);
+    background: var(--success-soft-color);
+    font-size: 10px;
+}
+
+.card-comment {
+    min-height: 38px;
+    margin: 0 0 12px;
+    color: var(--muted-text-color);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.card-actions,
+.card-utility-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.card-actions {
+    flex-wrap: wrap;
+}
+
+.card-utility-actions {
+    margin-left: auto;
+}
+
+.card-button {
+    min-height: 34px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 6px 9px;
+    color: var(--text-color);
+    background: var(--card-bg-color);
+    font-size: 11px;
+    font-weight: 700;
+    transition: 180ms ease;
+}
+
+.card-button:hover {
+    border-color: var(--primary-color);
+}
+
+.card-button.primary {
+    color: var(--card-bg-color);
+    border-color: var(--secondary-color);
+    background: var(--secondary-color);
+}
+
+.card-button.danger {
+    color: var(--primary-color);
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    border: 1px dashed var(--border-color);
+    border-radius: 16px;
+    padding: 48px 20px;
+    text-align: center;
+    color: var(--muted-text-color);
+    background: var(--card-bg-color);
+}
+
+.faq-section {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 46px max(20px, calc((100% - 1180px) / 2)) 50px;
+    background: var(--header-bg-color);
+}
+
+.faq-heading {
+    margin-bottom: 14px;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.faq-question {
+    width: 100%;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 0;
+    padding: 12px 2px;
+    color: var(--text-color);
+    background: transparent;
+    text-align: left;
+    font-weight: 700;
+}
+
+.faq-question span:last-child {
+    color: var(--primary-color);
+    transition: transform 220ms ease;
+}
+
+.faq-item.open .faq-question span:last-child {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    color: var(--muted-text-color);
+    font-size: 14px;
+    line-height: 1.8;
+    transition: max-height 260ms ease, padding 260ms ease;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 180px;
+    padding: 0 2px 18px;
+}
+
+.site-footer {
+    background: var(--text-color);
+}
+
+.footer-inner {
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--card-bg-color);
+}
+
+.footer-brand {
+    color: var(--card-bg-color);
+}
+
+.footer-inner p {
+    color: var(--bg-color);
+    font-size: 13px;
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: var(--overlay-color);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.modal-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    width: min(680px, 100%);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    border-radius: 18px;
+    padding: 24px;
+    background: var(--card-bg-color);
+    box-shadow: 0 24px 60px var(--shadow-color);
+    transform: translateY(18px) scale(0.98);
+    transition: transform 220ms ease;
+}
+
+.modal-backdrop.open .modal {
+    transform: translateY(0) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.icon-button {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    color: var(--muted-text-color);
+    background: var(--card-bg-color);
+    font-size: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.form-wide {
+    grid-column: 1 / -1;
+}
+
+.form-field {
+    display: grid;
+    gap: 7px;
+    color: var(--text-color);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-field b {
+    color: var(--primary-color);
+}
+
+.form-field input,
+.form-field textarea {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: var(--text-color);
+    background: var(--input-bg-color);
+    outline: none;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+    border-color: var(--secondary-color);
+}
+
+.status-field {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.status-field legend {
+    margin-bottom: 7px;
+}
+
+.status-field label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-right: 16px;
+}
+
+.status-field input {
+    width: auto;
+}
+
+.photo-input {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--border-color);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    background: var(--soft-bg-color);
+}
+
+.photo-input input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.photo-preview {
+    width: 100%;
+    height: 170px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background: var(--card-bg-color);
+    color: var(--text-color);
+}
+
+.custom-marker {
+    border: 0;
+    background: transparent;
+}
+
+.popup-card {
+    width: 180px;
+}
+
+.popup-card img {
+    width: 100%;
+    height: 90px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.popup-card strong {
+    display: block;
+    margin-top: 6px;
+}
+
+.popup-card span {
+    color: var(--muted-text-color);
+    font-size: 11px;
+}
+
+.restaurant-marker {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border: 3px solid var(--card-bg-color);
+    border-radius: 50% 50% 50% 12%;
+    color: var(--card-bg-color);
+    box-shadow: 0 4px 10px var(--marker-shadow-color);
+    transform: rotate(-45deg);
+    font-family: var(--font_en);
+    font-weight: 700;
+}
+
+.restaurant-marker span {
+    transform: rotate(45deg);
+}
+
+.restaurant-marker.visited {
+    background: var(--visited-color);
+}
+
+.restaurant-marker.wishlist {
+    background: var(--wishlist-color);
+}
+
+@media (max-width: 768px) {
+    .header-inner,
+    .footer-inner,
+    .control-section,
+    .workspace {
+        width: min(100% - 24px, 1180px);
+    }
+
+    .header-inner {
+        min-height: 70px;
+    }
+
+    .brand small {
+        display: none;
+    }
+
+    .header-inner .button {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .control-section {
+        margin-top: 16px;
+    }
+
+    .control-bar {
+        grid-template-columns: 1fr 130px;
+    }
+
+    .search-field {
+        grid-column: 1 / -1;
+    }
+
+    .workspace {
+        grid-template-columns: 1fr;
+        margin-bottom: 48px;
+    }
+
+    #map {
+        height: 420px;
+    }
+
+    .restaurant-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .footer-inner {
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 520px) {
+    .brand strong {
+        font-size: 17px;
+    }
+
+    .brand-mark {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .control-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .search-field,
+    .select-field {
+        grid-column: auto;
+    }
+
+    .status-tabs {
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .status-tab {
+        flex: 0 0 auto;
+    }
+
+    .restaurant-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #map {
+        height: 360px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-wide {
+        grid-column: auto;
+    }
+
+    .modal {
+        padding: 18px;
+    }
+
+    .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 6px;
+    }
+}

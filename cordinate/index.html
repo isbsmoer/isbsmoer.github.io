@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FFF9F2">
+    <title>Magical Cordinate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Zen+Maru+Gothic:wght@400;500;700&display=display" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" aria-label="アプリ操作">
+            <header class="brand">
+                <div class="brand-mark" aria-hidden="true">AC</div>
+                <div>
+                    <p class="brand-kicker">MAGICAL DRESS UP</p>
+                    <h1>Magical Cordinate</h1>
+                </div>
+            </header>
+            <p class="app-description">好きなパーツを重ねて、あなただけのコーディネートを作ろう。</p>
+
+            <div class="sidebar-actions">
+                <button class="action-button random-button" id="randomButton" type="button">
+                    <span aria-hidden="true">✦</span>
+                    <span>ルーレットコーデ</span>
+                </button>
+                <button class="action-button reset-button" id="resetButton" type="button">
+                    <span aria-hidden="true">↺</span>
+                    <span>すべてリセット</span>
+                </button>
+                <button class="action-button download-button" id="downloadButton" type="button">
+                    <span aria-hidden="true">↓</span>
+                    <span>PNGを保存</span>
+                </button>
+            </div>
+
+            <section class="save-panel" aria-labelledby="saveHeading">
+                <h2 id="saveHeading">マイコーデカードを保存</h2>
+                <div class="save-row">
+                    <input id="saveName" type="text" maxlength="30" placeholder="コーデ名（任意）">
+                    <button id="saveButton" type="button">保存</button>
+                </div>
+                <textarea id="saveMemo" maxlength="60" placeholder="ひとことメモ"></textarea>
+                <select id="saveTaste" aria-label="テイスト">
+                    <option value="ガーリー">ガーリー</option>
+                    <option value="ポップ">ポップ</option>
+                    <option value="カフェ">カフェ</option>
+                    <option value="ステージ">ステージ</option>
+                    <option value="ピクニック">ピクニック</option>
+                </select>
+            </section>
+        </aside>
+
+        <main class="preview-panel">
+            <div class="preview-heading">
+                <div>
+                    <p class="section-kicker">TODAY'S LOOK</p>
+                    <h2>コーディネートプレビュー</h2>
+                </div>
+                <span class="preview-status" id="previewStatus">トップス未選択</span>
+            </div>
+
+            <section class="preview-frame" aria-label="着せ替えプレビュー">
+                <span class="stage-sparkle sparkle-one" aria-hidden="true">✦</span>
+                <span class="stage-sparkle sparkle-two" aria-hidden="true">♡</span>
+                <span class="stage-sparkle sparkle-three" aria-hidden="true">★</span>
+                <div class="frame-decoration frame-decoration-left" aria-hidden="true"></div>
+                <div class="frame-decoration frame-decoration-right" aria-hidden="true"></div>
+                <div class="character-stage" id="characterStage" aria-live="polite">
+                    <div class="clothing-layers" id="clothingLayers"></div>
+                </div>
+            </section>
+
+            <section class="appearance-controls" aria-label="背景設定">
+                <div class="control-group">
+                    <span class="control-label">背景カラー</span>
+                    <div class="color-options" id="backgroundOptions"></div>
+                </div>
+                <div class="control-group">
+                    <span class="control-label">パターン</span>
+                    <div class="pattern-options" id="patternOptions"></div>
+                </div>
+            </section>
+
+            <section class="challenge-panel" aria-labelledby="challengeHeading">
+                <div class="challenge-heading">
+                    <div>
+                        <p class="section-kicker">TODAY'S CHALLENGE</p>
+                        <h3 id="challengeHeading">今日のお題</h3>
+                    </div>
+                    <span class="challenge-stamp" id="challengeStamp" aria-live="polite"></span>
+                </div>
+                <div class="challenge-content">
+                    <strong id="challengeTitle"></strong>
+                    <p id="challengeDescription"></p>
+                </div>
+                <div class="challenge-actions">
+                    <button id="nextChallengeButton" type="button">別のお題にする</button>
+                    <button id="judgeChallengeButton" type="button">チャレンジ判定 ✦</button>
+                </div>
+                <div class="challenge-result" id="challengeResult" aria-live="polite"></div>
+            </section>
+
+            <section class="selected-panel" aria-labelledby="selectedHeading">
+                <div class="selected-heading-row">
+                    <h3 id="selectedHeading">選択中のコーデ</h3>
+                    <span id="selectedCount">0 アイテム</span>
+                </div>
+                <div class="selected-list" id="selectedList"></div>
+            </section>
+        </main>
+
+        <aside class="wardrobe-panel" aria-label="コーディネートパーツ">
+            <div class="wardrobe-heading">
+                <p class="section-kicker">WARDROBE</p>
+                <h2>アイテムを選ぶ</h2>
+            </div>
+            <div class="season-tabs" id="seasonTabs" role="tablist" aria-label="季節"></div>
+            <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="アイテムカテゴリー"></div>
+            <div class="parts-grid" id="partsGrid" role="tabpanel"></div>
+            <section class="export-panel" aria-labelledby="exportHeading">
+                <h3 id="exportHeading">PNG書き出し設定</h3>
+                <div class="export-row">
+                    <label>サイズ
+                        <select id="exportRatio">
+                            <option value="square">正方形 1:1</option>
+                            <option value="portrait">SNS縦長 4:5</option>
+                            <option value="story">縦長 9:16</option>
+                            <option value="standard">標準 16:9</option>
+                        </select>
+                    </label>
+                    <label>余白
+                        <select id="exportPadding">
+                            <option value="none">なし</option>
+                            <option value="narrow">狭め</option>
+                            <option value="wide">広め</option>
+                        </select>
+                    </label>
+                </div>
+                <button class="story-share-button" id="storyShareButton" type="button">Instagramストーリーズで共有</button>
+            </section>
+            <section class="saved-panel" aria-labelledby="savedHeading">
+                <h3 id="savedHeading">保存したコーデ</h3>
+                <div class="saved-list" id="savedList"></div>
+            </section>
+        </aside>
+    </div>
+
+    <div class="share-modal" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle" hidden>
+        <div class="share-modal-card">
+            <button class="share-modal-close" id="shareModalClose" type="button" aria-label="閉じる">×</button>
+            <span class="share-modal-icon" aria-hidden="true">♡</span>
+            <h2 id="shareModalTitle">ストーリーズ投稿ガイド</h2>
+            <p>1. Instagramを開く<br>2. 新規ストーリーを選ぶ<br>3. 保存した画像をカメラロールから選択</p>
+            <button id="shareModalDownload" type="button">画像を再ダウンロード</button>
+        </div>
+    </div>
+
+    <canvas id="exportCanvas" width="720" height="900" hidden></canvas>
+    <script src="js/script.js"></script>
+</body>
+</html>

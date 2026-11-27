@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アニメのセリフクイズ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Kiwi+Maru:wght@400;500&family=Mochiy+Pop+One&family=Shippori+Mincho:wght@400;600&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-shell" id="appShell">
+        <header class="app-header">
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true">A</span>
+                <div>
+                    <p class="brand-kicker">SLAM DUNK 名セリフクイズ</p>
+                    <h1>あの名シーンの言葉を思い出せ！</h1>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="mode-switch" aria-label="表示モード">
+                    <button type="button" class="mode-button active" id="playModeButton" aria-pressed="true">プレイ</button>
+                    <button type="button" class="mode-button" id="listModeButton" aria-pressed="false">一覧</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="app-main" id="appMain">
+            <section class="play-view" id="playView" aria-live="polite">
+                <div class="progress-row">
+                    <span id="questionNumber">第1問</span>
+                    <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+                    <strong id="scoreText">0 pts</strong>
+                </div>
+
+                <article class="quiz-card ticket-frame" id="quizCard">
+                    <div class="scene-label"><span>名シーン</span></div>
+                    <p class="quote-mark" aria-hidden="true">“</p>
+                    <h2 class="quote" id="quoteText"></h2>
+                    <p class="question">このセリフを言ったのは？</p>
+                    <div class="answer-grid" id="answerGrid"></div>
+                    <div class="feedback" id="feedback" hidden>
+                        <div class="feedback-heading">
+                            <strong id="feedbackTitle"></strong>
+                            <span id="comboText"></span>
+                        </div>
+                        <p id="explanationText"></p>
+                        <button type="button" class="next-button" id="nextButton">次の問題へ</button>
+                    </div>
+                </article>
+
+                <section class="result-card" id="resultCard" hidden>
+                    <p class="result-kicker">FINAL RESULT</p>
+                    <h2>クイズ終了！</h2>
+                    <div class="result-score-ring">
+                        <strong id="finalScore">0</strong>
+                        <span>点 / 1000点</span>
+                    </div>
+                    <p class="result-detail" id="resultDetail">正解数：0 / 10問</p>
+                    <button type="button" class="restart-button" id="restartButton">もう一度挑戦</button>
+                </section>
+            </section>
+
+            <section class="list-view" id="listView" hidden>
+                <div class="list-heading">
+                    <div>
+                        <p>SLAM DUNK</p>
+                        <h2>名セリフ問題集</h2>
+                    </div>
+                    <strong id="resultScore">0 / 3 正解</strong>
+                </div>
+                <div class="question-list" id="questionList"></div>
+            </section>
+        </main>
+
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourmet Map & Log</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="#" aria-label="Gourmet Map ホーム">
+                <span class="brand-mark" aria-hidden="true">G</span>
+                <span>
+                    <strong>Gourmet Map</strong>
+                    <small>行ってみたい、お店の記録帳</small>
+                </span>
+            </a>
+            <button class="button button-primary" id="openAddModal" type="button">
+                <span aria-hidden="true">＋</span> お店を登録
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="control-section" aria-label="検索と絞り込み">
+            <div class="control-bar">
+                <label class="search-field" for="searchInput">
+                    <span class="search-icon" aria-hidden="true">⌕</span>
+                    <input id="searchInput" type="search" placeholder="店名・ジャンルで検索">
+                </label>
+                <label class="select-field" for="areaFilter">
+                    <span>地域</span>
+                    <select id="areaFilter">
+                        <option value="all">すべて</option>
+                    </select>
+                </label>
+                <button class="button button-location" id="locateButton" type="button">
+                    <span aria-hidden="true">◎</span> 現在地周辺
+                </button>
+            </div>
+            <div class="status-tabs" id="statusTabs" role="tablist" aria-label="ステータス絞り込み">
+                <button class="status-tab active" type="button" role="tab" aria-selected="true" data-status="all">すべて</button>
+                <button class="status-tab" type="button" role="tab" aria-selected="false" data-status="wishlist">行ってみたい</button>
+                <button class="status-tab" type="button" role="tab" aria-selected="false" data-status="visited">行った！</button>
+            </div>
+        </section>
+
+        <section class="workspace" aria-label="地図とお店一覧">
+            <aside class="map-column">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">MAP</p>
+                        <h1>お店を探す</h1>
+                    </div>
+                    <span class="count-badge" id="mapCount">0件</span>
+                </div>
+                <div id="map" aria-label="飲食店マップ"></div>
+                <p class="map-help">地図上をクリックすると、その場所でお店を登録できます</p>
+            </aside>
+
+            <section class="list-column" aria-label="飲食店一覧">
+                <div class="section-heading list-heading">
+                    <div>
+                        <p class="eyebrow">MY LIST</p>
+                        <h2>マイグルメログ</h2>
+                    </div>
+                    <button class="text-button" id="resetFilters" type="button">絞り込みをリセット</button>
+                </div>
+                <div class="restaurant-grid" id="restaurantGrid"></div>
+            </section>
+        </section>
+
+        <section class="faq-section" aria-labelledby="faqTitle">
+            <div class="faq-heading">
+                <p class="eyebrow">GUIDE</p>
+                <h2 id="faqTitle">よくある質問・使い方</h2>
+            </div>
+            <div class="faq-list" id="faqList"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="brand-mark" aria-hidden="true">G</span>
+                <strong>Gourmet Map</strong>
+            </div>
+            <p>次の美味しい出会いを、地図に残そう。</p>
+        </div>
+    </footer>
+
+    <div class="modal-backdrop" id="shopModal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <div>
+                    <p class="eyebrow">RESTAURANT</p>
+                    <h2 id="modalTitle">お店を登録</h2>
+                </div>
+                <button class="icon-button" id="closeModal" type="button" aria-label="閉じる">×</button>
+            </div>
+            <form id="shopForm">
+                <input type="hidden" id="shopId">
+                <div class="form-grid">
+                    <label class="form-field form-wide">
+                        <span>店名 <b>*</b></span>
+                        <input id="shopName" type="text" required placeholder="例：森のパンケーキ店">
+                    </label>
+                    <label class="form-field">
+                        <span>地域（エリア） <b>*</b></span>
+                        <input id="shopArea" type="text" required placeholder="例：東京">
+                    </label>
+                    <label class="form-field">
+                        <span>ジャンル <b>*</b></span>
+                        <input id="shopGenre" type="text" required placeholder="例：カフェ">
+                    </label>
+                    <label class="form-field">
+                        <span>緯度</span>
+                        <input id="shopLat" type="number" step="any" placeholder="35.681236">
+                    </label>
+                    <label class="form-field">
+                        <span>経度</span>
+                        <input id="shopLng" type="number" step="any" placeholder="139.767125">
+                    </label>
+                    <fieldset class="form-field form-wide status-field">
+                        <legend>ステータス</legend>
+                        <label><input type="radio" name="shopStatus" value="wishlist" checked> 行ってみたい</label>
+                        <label><input type="radio" name="shopStatus" value="visited"> 行った！</label>
+                    </fieldset>
+                    <label class="form-field form-wide">
+                        <span>写真</span>
+                        <span class="photo-input">
+                            <input id="shopPhoto" type="file" accept="image/*">
+                            <span>写真を選択</span>
+                        </span>
+                        <img id="photoPreview" class="photo-preview" src="https://placehold.jp/600x400.png?text=Gourmet+Photo" alt="選択した写真のプレビュー">
+                    </label>
+                    <label class="form-field form-wide">
+                        <span>メモ・感想</span>
+                        <textarea id="shopComment" rows="4" placeholder="気になるメニューや訪問メモを入力"></textarea>
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button class="button button-secondary" id="cancelModal" type="button">キャンセル</button>
+                    <button class="button button-primary" type="submit">保存する</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

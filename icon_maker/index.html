@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="自由な組み合わせでオリジナルのアイコンを作成できるカスタムメーカー">
+    <title>アイコンめ～か～｜icon maker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Rubik+Bubbles&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <main class="app-shell">
+        <header class="title-area">
+            <h1><img src="img/icon_maker_logo.svg" alt="アイコンメーカーロゴ"></h1>
+            <p>パーツを組み合わせて、あなただけのアイコンを作ろう。</p>
+        </header>
+
+        <section class="maker-layout" aria-label="アイコン作成エリア">
+            <aside class="preview-panel">
+                <div class="preview-heading">
+                    <h2>Preview</h2>
+                    <span id="selectionCount" class="selection-count">0 / 9 選択中</span>
+                </div>
+                <div id="previewBox" class="preview-box" aria-label="アイコンプレビュー">
+                    <div id="previewEmpty" class="preview-empty">
+                        パーツを選んで<br>アイコンを作ろう
+                    </div>
+                </div>
+
+                <div class="action-area">
+                    <button id="randomButton" class="button button-secondary" type="button">ランダム生成</button>
+                    <button id="saveButton" class="button button-primary" type="button">PNGで保存</button>
+                </div>
+            </aside>
+
+            <nav id="categoryTabs" class="category-tabs" aria-label="パーツカテゴリ"></nav>
+
+            <section class="parts-panel">
+                <div class="parts-header">
+                    <h2 id="categoryTitle">パーツを選択</h2>
+                    <span id="categoryHint" class="category-hint">項目をタップするとプレビューに反映</span>
+                </div>
+
+                <div id="partsGrid" class="parts-grid" aria-live="polite"></div>
+
+                <div class="background-options">
+                    <h3>背景色</h3>
+                    <div id="backgroundPalette" class="background-palette" aria-label="背景色パレット"></div>
+                    <label class="color-picker-label" for="backgroundPicker">
+                        <span>自由に選択</span>
+                        <input id="backgroundPicker" type="color" value="#f7c873">
+                    </label>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <div id="warningModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+        aria-hidden="true">
+        <div class="modal-backdrop" data-close-modal></div>
+        <div class="modal-card">
+            <div class="modal-icon" aria-hidden="true">!</div>
+            <h2 id="modalTitle">パーツが足りません</h2>
+            <p id="modalMessage">必要なパーツを選択してから保存してください。</p>
+            <div id="missingParts" class="missing-parts"></div>
+            <button id="modalClose" class="button button-primary" type="button">パーツを選ぶ</button>
+        </div>
+    </div>
+
+    <footer>
+        <p><small>&copy;2026 nina icon maker</small></p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
